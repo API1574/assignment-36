@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="93be51d5-5d82-4bb5-8d72-645c94eab0aa" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="day36-cicdFlow" doc:id="b4ae4c21-1142-4f94-b450-6f0a9b8831c3" >
+		<http:listener doc:name="Listener" doc:id="76c0768e-9ed5-452f-b068-dbeb12d36557" config-ref="HTTP_Listener_config" path="/day36"/>
+		<logger level="INFO" doc:name="Start flow" doc:id="a95e7032-cf46-4a3d-a7c3-374870ca136c" message="Start flow"/>
+		<ee:transform doc:name="message" doc:id="552e12c6-ffad-4721-8a7a-d20d7b374132" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message": "Hi, Welcome to Udaan training"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End flow" doc:id="71c3e8e9-9dd6-4094-940e-18c975c9da53" message="End flow"/>
+	</flow>
+</mule>

@@ -1,0 +1,25 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build Application') { 
+      steps {
+        bat 'mvn clean install'
+      }
+    }
+    stage('Test') { 
+      steps {
+        echo 'Test Application'
+        bat 'mvn test'
+      }
+    }
+    
+    stage('Deploy CloudHub') { 
+      environment {
+        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
+      }
+      steps {
+        bat 'mvn package deploy -e -X -DmuleDeploy -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}' 
+      }
+    }
+  }
+}
